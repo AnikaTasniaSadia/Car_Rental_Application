@@ -5,6 +5,7 @@
 
 package carrentalmanagementsystem;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -37,13 +38,13 @@ public class FXMLDocumentController implements Initializable {
     private TextField username;
 
     @FXML
-    private PasswordField password;
+    private TextField password;
 
     @FXML
     private Button loginBtn;
 
     @FXML
-    private Button close;
+    private FontAwesomeIcon close;
     
 //    DATABASE TOOLS
     private Connection connect;
@@ -52,6 +53,7 @@ public class FXMLDocumentController implements Initializable {
     
     private double x = 0;
     private double y = 0;
+    @FXML
     public void loginAdmin(){
         
         String sql = "SELECT * FROM admin WHERE username = ? and password = ?";
@@ -74,7 +76,7 @@ public class FXMLDocumentController implements Initializable {
             }else{
                 if(result.next()){
                     
-                    getData.username = username.getText();
+                   // getData.username = username.getText();
                     
                     alert = new Alert(AlertType.INFORMATION);
                     alert.setHeaderText(null);
@@ -114,6 +116,7 @@ public class FXMLDocumentController implements Initializable {
         
     }
     
+    @FXML
     public void close(){
         System.exit(0);
     }
@@ -122,5 +125,5 @@ public class FXMLDocumentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
-    System.out.print("hello")
+    
 }
