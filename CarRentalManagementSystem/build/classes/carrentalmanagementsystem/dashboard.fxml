@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import java.lang.String?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
@@ -19,7 +19,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="carrentalmanagementsystem.DashboardController">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -29,7 +29,7 @@
                      <children>
                         <AnchorPane layoutX="33.0" layoutY="-54.0" prefHeight="35.0" prefWidth="1100.0" styleClass="top-form" stylesheets="@dashboardDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <FontAwesomeIconView glyphName="CAR" layoutX="20.0" layoutY="27.0" size="1.5em" />
+                              <FontAwesomeIcon glyphName="CAR" layoutX="20.0" layoutY="27.0" size="1.5em" />
                               <Label layoutX="58.0" layoutY="14.0" text="Car Rental Management System">
                                  <font>
                                     <Font name="Tahoma" size="13.0" />
@@ -37,12 +37,12 @@
                               </Label>
                               <Button layoutX="1015.0" layoutY="10.0" mnemonicParsing="false" styleClass="close" stylesheets="@dashboardDesign.css" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0">
                                  <graphic>
-                                    <FontAwesomeIconView glyphName="CLOSE" size="1.2em" wrappingWidth="28.11421126127243" />
+                                    <FontAwesomeIcon glyphName="CLOSE" size="1.2em" wrappingWidth="28.11421126127243" />
                                  </graphic>
                               </Button>
                               <Button layoutX="995.0" layoutY="2.0" mnemonicParsing="false" styleClass="minimize" stylesheets="@dashboardDesign.css">
                                  <graphic>
-                                    <FontAwesomeIconView glyphName="MINUS" size="1.2em" wrappingWidth="28.11421126127243" />
+                                    <FontAwesomeIcon glyphName="MINUS" size="1.2em" wrappingWidth="28.11421126127243" />
                                  </graphic>
                               </Button>
                            </children>
@@ -55,7 +55,7 @@
                      <children>
                         <AnchorPane layoutX="3.0" layoutY="14.0" prefHeight="554.4" prefWidth="205.6" stylesheets="@dashboardDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <FontAwesomeIconView fill="WHITE" glyphName="USER" layoutX="73.0" layoutY="96.0" size="7em" text="" />
+                              <FontAwesomeIcon fill="WHITE" glyphName="USER" layoutX="73.0" layoutY="96.0" size="7em" text="" />
                               <Label layoutX="58.0" layoutY="122.0" text="Welcome" textFill="WHITE">
                                  <font>
                                     <Font size="17.0" />
@@ -64,11 +64,11 @@
                               <Line endX="100.0" layoutX="103.0" layoutY="206.0" startX="-100.0" />
                               <Button layoutX="13.0" layoutY="231.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Home">
                                  <graphic>
-                                    <FontAwesomeIconView fill="WHITE" glyphName="HOME" size="1.5em" />
+                                    <FontAwesomeIcon fill="WHITE" glyphName="HOME" size="1.5em" />
                                  </graphic></Button>
                               <Button layoutX="14.0" layoutY="504.0" mnemonicParsing="false" stylesheets="@dashboardDesign.css">
                                  <graphic>
-                                    <FontAwesomeIconView fill="WHITE" glyphName="SIGN_OUT" size="2em" />
+                                    <FontAwesomeIcon fill="WHITE" glyphName="SIGN_OUT" size="2em" />
                                  </graphic>
                                  <styleClass>
                                     <String fx:value="logout-btn" />
@@ -87,12 +87,12 @@
                               </Label>
                               <Button layoutX="13.0" layoutY="277.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Available Cars">
                                  <graphic>
-                                    <FontAwesomeIconView fill="WHITE" glyphName="CHECK" size="1.3em" />
+                                    <FontAwesomeIcon fill="WHITE" glyphName="CHECK" size="1.3em" />
                                  </graphic>
                               </Button>
                               <Button layoutX="13.0" layoutY="323.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Rent Car">
                                  <graphic>
-                                    <FontAwesomeIconView fill="WHITE" glyphName="CAR" size="1.3em" />
+                                    <FontAwesomeIcon fill="WHITE" glyphName="CAR" size="1.3em" />
                                  </graphic>
                               </Button>
                            </children>
@@ -117,7 +117,7 @@
                                  <children>
                                     <AnchorPane layoutX="41.0" layoutY="6.0" prefHeight="130.0" prefWidth="230.0" styleClass="nav-form" stylesheets="@dashboardDesign.css">
                                        <children>
-                                          <FontAwesomeIconView fill="WHITE" glyphName="CAR" layoutX="14.0" layoutY="63.0" size="4em" text="" />
+                                          <FontAwesomeIcon fill="WHITE" glyphName="CAR" layoutX="14.0" layoutY="63.0" size="4em" text="" />
                                           <Label layoutX="88.0" layoutY="70.0" text="Available Cars" textFill="WHITE">
                                              <font>
                                                 <Font name="Tahoma" size="15.0" />
@@ -142,11 +142,11 @@
                                                 <Font name="Tahoma" size="15.0" />
                                              </font>
                                           </Label>
-                                          <FontAwesomeIconView fill="WHITE" glyphName="MONEY" layoutX="24.0" layoutY="63.0" size="4em" />
+                                          <FontAwesomeIcon fill="WHITE" glyphName="MONEY" layoutX="24.0" layoutY="63.0" size="4em" />
                                        </children></AnchorPane>
                                     <AnchorPane layoutX="596.0" layoutY="6.0" prefHeight="130.0" prefWidth="230.0" styleClass="nav-form" stylesheets="@dashboardDesign.css">
                                        <children>
-                                          <FontAwesomeIconView fill="WHITE" glyphName="USERS" layoutX="17.0" layoutY="91.0" size="4em" />
+                                          <FontAwesomeIcon fill="WHITE" glyphName="USERS" layoutX="17.0" layoutY="91.0" size="4em" />
                                           <Label layoutX="93.0" layoutY="88.0" text="Total Customers" textFill="WHITE">
                                              <font>
                                                 <Font name="Tahoma" size="15.0" />
