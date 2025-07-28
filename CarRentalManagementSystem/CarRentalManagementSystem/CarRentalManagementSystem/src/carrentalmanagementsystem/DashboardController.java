@@ -1,4 +1,3 @@
-
 package carrentalmanagementsystem;
 
 import java.io.File;
@@ -45,7 +44,6 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-
 public class DashboardController implements Initializable {
 
     @FXML
@@ -62,9 +60,6 @@ public class DashboardController implements Initializable {
 
     @FXML
     private Button home_btn;
-
-    @FXML
-    private Button logoutBtn;
 
     @FXML
     private Button availableCars_btn;
@@ -100,7 +95,7 @@ public class DashboardController implements Initializable {
     private TextField availableCars_model;
 
     @FXML
-    private ComboBox<?> availableCars_status;
+    private ComboBox<String> availableCars_status;
 
     @FXML
     private ImageView availableCars_imageView;
@@ -148,13 +143,13 @@ public class DashboardController implements Initializable {
     private AnchorPane rent_form;
 
     @FXML
-    private ComboBox<?> rent_carId;
+    private ComboBox<String> rent_carId;
 
     @FXML
-    private ComboBox<?> rent_brand;
+    private ComboBox<String> rent_brand;
 
     @FXML
-    private ComboBox<?> rent_model;
+    private ComboBox<String> rent_model;
 
     @FXML
     private TextField rent_firstName;
@@ -163,7 +158,7 @@ public class DashboardController implements Initializable {
     private TextField rent_lastName;
 
     @FXML
-    private ComboBox<?> rent_gender;
+    private ComboBox<String> rent_gender;
 
     @FXML
     private DatePicker rent_dateRented;
@@ -203,6 +198,9 @@ public class DashboardController implements Initializable {
 
     @FXML
     private TableColumn<carData, String> rent_col_status;
+    
+    @FXML
+    private Button logoutbtn;
 
 //    DATABASE TOOLS
     private Connection connect;
@@ -212,112 +210,129 @@ public class DashboardController implements Initializable {
 
     private Image image;
 
-    public void homeAvailableCars(){
-        
+    
+    
+    @FXML
+    private Label home_availableCar;
+    
+
+
+
+    public void homeAvailableCars() {
+
         String sql = "SELECT COUNT(id) FROM car WHERE status = 'Available'";
-        
+
         connect = database.connectDb();
         int countAC = 0;
-        try{
+        try {
             prepare = connect.prepareStatement(sql);
             result = prepare.executeQuery();
-            
-            while(result.next()){
+
+            while (result.next()) {
                 countAC = result.getInt("COUNT(id)");
             }
-            
-            home_availableCars.setText(String.valueOf(countAC));
-            
-        }catch(Exception e){e.printStackTrace();}
-        
+
+            home_availableCar.setText(String.valueOf(countAC));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
-    
-    public void homeTotalIncome(){
+
+    public void homeTotalIncome() {
         String sql = "SELECT SUM(total) FROM customer";
-        
+
         double sumIncome = 0;
-        
+
         connect = database.connectDb();
-        
-        try{
+
+        try {
             prepare = connect.prepareStatement(sql);
             result = prepare.executeQuery();
-            
-            while(result.next()){
+
+            while (result.next()) {
                 sumIncome = result.getDouble("SUM(total)");
             }
             home_totalIncome.setText("$" + String.valueOf(sumIncome));
-        }catch(Exception e){e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    
-    
-    public void homeTotalCustomers(){
-        
+
+    public void homeTotalCustomers() {
+
         String sql = "SELECT COUNT(id) FROM customer";
-        
+
         int countTC = 0;
-        
+
         connect = database.connectDb();
-        
-        try{
+
+        try {
             prepare = connect.prepareStatement(sql);
             result = prepare.executeQuery();
-            
-            while(result.next()){
+
+            while (result.next()) {
                 countTC = result.getInt("COUNT(id)");
             }
             home_totalCustomers.setText(String.valueOf(countTC));
-        }catch(Exception e){e.printStackTrace();}
-        
-    }
-    
-    public void homeIncomeChart(){
-        
-        home_incomeChart.getData().clear();
-        
-        String sql = "SELECT date_rented, SUM(total) FROM customer GROUP BY date_rented ORDER BY TIMESTAMP(date_rented) ASC LIMIT 6";
-        
-        connect = database.connectDb();
-        
-        try{
-            XYChart.Series chart = new XYChart.Series();
-            
-            prepare = connect.prepareStatement(sql);
-            result = prepare.executeQuery();
-            
-            while(result.next()){
-                chart.getData().add(new XYChart.Data(result.getString(1), result.getInt(2)));
-            }
-            
-            home_incomeChart.getData().add(chart);
-            
-        }catch(Exception e){e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
-    
-    public void homeCustomerChart(){
-        home_customerChart.getData().clear();
-        
-        String sql = "SELECT date_rented, COUNT(id) FROM customer GROUP BY date_rented ORDER BY TIMESTAMP(date_rented) ASC LIMIT 4";
-        
+    public void homeIncomeChart() {
+
+        home_incomeChart.getData().clear();
+
+        String sql = "SELECT date_rented, SUM(total) FROM customer GROUP BY date_rented ORDER BY TIMESTAMP(date_rented) ASC LIMIT 6";
+
         connect = database.connectDb();
-        
-        try{
+
+        try {
             XYChart.Series chart = new XYChart.Series();
-            
+
             prepare = connect.prepareStatement(sql);
             result = prepare.executeQuery();
-            
-            while(result.next()){
+
+            while (result.next()) {
                 chart.getData().add(new XYChart.Data(result.getString(1), result.getInt(2)));
             }
-            
-            home_customerChart.getData().add(chart);
-            
-        }catch(Exception e){e.printStackTrace();}
-        
+
+            home_incomeChart.getData().add(chart);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    
+ 
+    public void homeCustomerChart() {
+        home_customerChart.getData().clear();
+
+        String sql = "SELECT date_rented, COUNT(id) FROM customer GROUP BY date_rented ORDER BY TIMESTAMP(date_rented) ASC LIMIT 4";
+
+        connect = database.connectDb();
+
+        try {
+            XYChart.Series chart = new XYChart.Series();
+
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            while (result.next()) {
+                chart.getData().add(new XYChart.Data(result.getString(1), result.getInt(2)));
+            }
+
+            home_customerChart.getData().add(chart);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @FXML
     public void availableCarAdd() {
 
         String sql = "INSERT INTO car (car_id, brand, model, price, status, image, date) "
@@ -374,6 +389,7 @@ public class DashboardController implements Initializable {
 
     }
 
+    @FXML
     public void availableCarUpdate() {
 
         String uri = getData.path;
@@ -429,6 +445,7 @@ public class DashboardController implements Initializable {
 
     }
 
+    @FXML
     public void availableCarDelete() {
 
         String sql = "DELETE FROM car WHERE car_id = '" + availableCars_carId.getText() + "'";
@@ -476,6 +493,7 @@ public class DashboardController implements Initializable {
 
     }
 
+    @FXML
     public void availableCarClear() {
         availableCars_carId.setText("");
         availableCars_brand.setText("");
@@ -491,6 +509,7 @@ public class DashboardController implements Initializable {
 
     private String[] listStatus = {"Available", "Not Available"};
 
+    @FXML
     public void availableCarStatusList() {
 
         List<String> listS = new ArrayList<>();
@@ -503,6 +522,7 @@ public class DashboardController implements Initializable {
         availableCars_status.setItems(listData);
     }
 
+    @FXML
     public void availableCarImportImage() {
 
         FileChooser open = new FileChooser();
@@ -538,12 +558,12 @@ public class DashboardController implements Initializable {
 
             while (result.next()) {
                 carD = new carData(result.getInt("car_id"),
-                         result.getString("brand"),
-                         result.getString("model"),
-                         result.getDouble("price"),
-                         result.getString("status"),
-                         result.getString("image"),
-                         result.getDate("date"));
+                        result.getString("brand"),
+                        result.getString("model"),
+                        result.getDouble("price"),
+                        result.getString("status"),
+                        result.getString("image"),
+                        result.getDate("date"));
 
                 listData.add(carD);
             }
@@ -568,6 +588,7 @@ public class DashboardController implements Initializable {
         availableCars_tableView.setItems(availableCarList);
     }
 
+    @FXML
     public void availableCarSearch() {
 
         FilteredList<carData> filter = new FilteredList<>(availableCarList, e -> true);
@@ -605,6 +626,7 @@ public class DashboardController implements Initializable {
 
     }
 
+    @FXML
     public void availableCarSelect() {
         carData carD = availableCars_tableView.getSelectionModel().getSelectedItem();
         int num = availableCars_tableView.getSelectionModel().getSelectedIndex();
@@ -626,76 +648,79 @@ public class DashboardController implements Initializable {
         availableCars_imageView.setImage(image);
 
     }
-    
-    public void rentPay(){
+
+    @FXML
+    public void rentPay() {
         rentCustomerId();
-        
+
         String sql = "INSERT INTO customer "
                 + "(customer_id, firstName, lastName, gender, car_id, brand"
                 + ", model, total, date_rented, date_return) "
                 + "VALUES(?,?,?,?,?,?,?,?,?,?)";
-        
+
         connect = database.connectDb();
-        
-        try{
+
+        try {
             Alert alert;
-            
-            if(rent_firstName.getText().isEmpty()
+
+            if (rent_firstName.getText().isEmpty()
                     || rent_lastName.getText().isEmpty()
                     || rent_gender.getSelectionModel().getSelectedItem() == null
                     || rent_carId.getSelectionModel().getSelectedItem() == null
                     || rent_brand.getSelectionModel().getSelectedItem() == null
                     || rent_model.getSelectionModel().getSelectedItem() == null
-                    || totalP == 0 || rent_amount.getText().isEmpty()){
+                    || totalP == 0 || rent_amount.getText().isEmpty()) {
                 alert = new Alert(AlertType.ERROR);
                 alert.setHeaderText(null);
                 alert.setContentText("Something wrong :3");
                 alert.showAndWait();
-            }else{
-                
+            } else {
+
                 alert = new Alert(AlertType.CONFIRMATION);
                 alert.setHeaderText(null);
                 alert.setContentText("Are you sure?");
                 Optional<ButtonType> option = alert.showAndWait();
-                
-                if(option.get().equals(ButtonType.OK)){
-                
+
+                if (option.get().equals(ButtonType.OK)) {
+
                     prepare = connect.prepareStatement(sql);
                     prepare.setString(1, String.valueOf(customerId));
                     prepare.setString(2, rent_firstName.getText());
                     prepare.setString(3, rent_lastName.getText());
-                    prepare.setString(4, (String)rent_gender.getSelectionModel().getSelectedItem());
-                    prepare.setString(5, (String)rent_carId.getSelectionModel().getSelectedItem());
-                    prepare.setString(6, (String)rent_brand.getSelectionModel().getSelectedItem());
-                    prepare.setString(7, (String)rent_model.getSelectionModel().getSelectedItem());
+                    prepare.setString(4, (String) rent_gender.getSelectionModel().getSelectedItem());
+                    prepare.setString(5, (String) rent_carId.getSelectionModel().getSelectedItem());
+                    prepare.setString(6, (String) rent_brand.getSelectionModel().getSelectedItem());
+                    prepare.setString(7, (String) rent_model.getSelectionModel().getSelectedItem());
                     prepare.setString(8, String.valueOf(totalP));
                     prepare.setString(9, String.valueOf(rent_dateRented.getValue()));
                     prepare.setString(10, String.valueOf(rent_dateReturn.getValue()));
 
                     prepare.executeUpdate();
-                    
+
                     // SET THE  STATUS OF CAR TO NOT AVAILABLE 
                     String updateCar = "UPDATE car SET status = 'Not Available' WHERE car_id = '"
-                            +rent_carId.getSelectionModel().getSelectedItem()+"'";
-                    
+                            + rent_carId.getSelectionModel().getSelectedItem() + "'";
+
                     statement = connect.createStatement();
                     statement.executeUpdate(updateCar);
-                    
+
                     alert = new Alert(AlertType.INFORMATION);
                     alert.setHeaderText(null);
                     alert.setContentText("Successful!");
                     alert.showAndWait();
-                    
+
                     rentCarShowListData();
-                    
+
                     rentClear();
                 } // NOW LETS PROCEED TO DASHBOARD FORM : ) 
             }
-        }catch(Exception e){e.printStackTrace();}
-        
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
-    
-    public void rentClear(){
+
+    public void rentClear() {
         totalP = 0;
         rent_firstName.setText("");
         rent_lastName.setText("");
@@ -709,55 +734,60 @@ public class DashboardController implements Initializable {
         rent_brand.getSelectionModel().clearSelection();
         rent_model.getSelectionModel().clearSelection();
     }
-    
+
     private int customerId;
-    public void rentCustomerId(){
+
+    public void rentCustomerId() {
         String sql = "SELECT id FROM customer";
-        
+
         connect = database.connectDb();
-        
-        try{
+
+        try {
             prepare = connect.prepareStatement(sql);
             result = prepare.executeQuery();
-            
-            while(result.next()){
+
+            while (result.next()) {
                 // GET THE LAST id and add + 1
                 customerId = result.getInt("id") + 1;
             }
-            
-        }catch(Exception e){e.printStackTrace();}
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    
+
     private double amount;
     private double balance;
-    public void rentAmount(){
+
+    @FXML
+    public void rentAmount() {
         Alert alert;
-        if(totalP == 0 || rent_amount.getText().isEmpty()){
+        if (totalP == 0 || rent_amount.getText().isEmpty()) {
             alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error Message");
             alert.setHeaderText(null);
             alert.setContentText("Invalid :3");
             alert.showAndWait();
-            
+
             rent_amount.setText("");
-        }else{
+        } else {
             amount = Double.parseDouble(rent_amount.getText());
-            
-            if(amount >= totalP){
+
+            if (amount >= totalP) {
                 balance = (amount - totalP);
                 rent_balance.setText("$" + String.valueOf(balance));
-            }else{
+            } else {
                 alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
                 alert.setContentText("Invalid :3");
                 alert.showAndWait();
-                
+
                 rent_amount.setText("");
             }
-            
+
         }
-        
+
     }
 
     public ObservableList<carData> rentCarListData() {
@@ -776,10 +806,10 @@ public class DashboardController implements Initializable {
 
             while (result.next()) {
                 carD = new carData(result.getInt("car_id"), result.getString("brand"),
-                         result.getString("model"), result.getDouble("price"),
-                         result.getString("status"),
-                         result.getString("image"),
-                         result.getDate("date"));
+                        result.getString("model"), result.getDouble("price"),
+                        result.getString("status"),
+                        result.getString("image"),
+                        result.getDate("date"));
 
                 listData.add(carD);
             }
@@ -789,28 +819,29 @@ public class DashboardController implements Initializable {
         }
         return listData;
     }
-    
+
     private int countDate;
-    public void rentDate(){
+
+    public void rentDate() {
         Alert alert;
-        if(rent_carId.getSelectionModel().getSelectedItem() == null
+        if (rent_carId.getSelectionModel().getSelectedItem() == null
                 || rent_brand.getSelectionModel().getSelectedItem() == null
-                || rent_model.getSelectionModel().getSelectedItem() == null){
+                || rent_model.getSelectionModel().getSelectedItem() == null) {
             alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error Message");
             alert.setHeaderText(null);
             alert.setContentText("Something wrong :3");
             alert.showAndWait();
-            
+
             rent_dateRented.setValue(null);
             rent_dateReturn.setValue(null);
-            
-        }else{
-            
-            if(rent_dateReturn.getValue().isAfter(rent_dateRented.getValue())){
+
+        } else {
+
+            if (rent_dateReturn.getValue().isAfter(rent_dateRented.getValue())) {
                 // COUNT THE DAY
                 countDate = rent_dateReturn.getValue().compareTo(rent_dateRented.getValue());
-            }else{
+            } else {
                 alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
@@ -818,38 +849,43 @@ public class DashboardController implements Initializable {
                 alert.showAndWait();
                 // INCREASE OF 1 DAY ONCE THE USER CLICKED THE SAME DAY 
                 rent_dateReturn.setValue(rent_dateRented.getValue().plusDays(1));
-                
+
             }
         }
     }
-    
+
     private double totalP;
-    public void rentDisplayTotal(){
+
+    @FXML
+    public void rentDisplayTotal() {
         rentDate();
         double price = 0;
         String sql = "SELECT price, model FROM car WHERE model = '"
-                +rent_model.getSelectionModel().getSelectedItem()+"'";
-        
+                + rent_model.getSelectionModel().getSelectedItem() + "'";
+
         connect = database.connectDb();
-        
-        try{
+
+        try {
             prepare = connect.prepareStatement(sql);
             result = prepare.executeQuery();
-            
-            if(result.next()){
+
+            if (result.next()) {
                 price = result.getDouble("price");
             }
             // price * the count day you want to use the car
             totalP = (price * countDate);
             // DISPLAY TOTAL
             rent_total.setText("$" + String.valueOf(totalP));
-            
-        }catch(Exception e){e.printStackTrace();}
-        
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     private String[] genderList = {"Male", "Female", "Others"};
 
+    @FXML
     public void rentCarGender() {
 
         List<String> listG = new ArrayList<>();
@@ -864,6 +900,7 @@ public class DashboardController implements Initializable {
 
     }
 
+    @FXML
     public void rentCarCarId() {
 
         String sql = "SELECT * FROM car WHERE status = 'Available'";
@@ -890,6 +927,7 @@ public class DashboardController implements Initializable {
 
     }
 
+    @FXML
     public void rentCarBrand() {
 
         String sql = "SELECT * FROM car WHERE car_id = '"
@@ -917,6 +955,7 @@ public class DashboardController implements Initializable {
 
     }
 
+    @FXML
     public void rentCarModel() {
 
         String sql = "SELECT * FROM car WHERE brand = '"
@@ -965,7 +1004,32 @@ public class DashboardController implements Initializable {
 
     private double x = 0;
     private double y = 0;
+    
+//    public void logout() {
+//        logoutbtn.getScene().getWindow().hide();
+//    try {
+//        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+//        Stage stage = new Stage();
+//        Scene scene = new Scene(root);
+//        
+//        root.setOnMousePressed((MouseEvent event) -> {
+//            x = event.getSceneX();
+//            y = event.getSceneY();
+//        });
+//
+//        root.setOnMouseDragged((MouseEvent event) -> {
+//            stage.setX(event.getScreenX() - x);
+//            stage.setY(event.getScreenY() - y);
+//        });
+//
+//        stage.setScene(scene);
+//        stage.show();
+//    } catch (Exception e) {
+//        e.printStackTrace();
+//    }
+//}
 
+    
     public void logout() {
 
         Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -976,7 +1040,7 @@ public class DashboardController implements Initializable {
         try {
             if (option.get().equals(ButtonType.OK)) {
                 // HIDE YOUR DASHBOARD FORM
-                logoutBtn.getScene().getWindow().hide();
+                logoutbtn.getScene().getWindow().hide();
 
                 // LINK YOUR LOGIN FORM
                 Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
@@ -1009,12 +1073,15 @@ public class DashboardController implements Initializable {
         }
     }
 
-    public void switchForm(ActionEvent event) {
+@FXML
+public void switchForm(ActionEvent event) {
+    System.out.println("Button Clicked: " + ((Button) event.getSource()).getId());
 
-        if (event.getSource() == home_btn) {
-            home_form.setVisible(true);
-            availableCars_form.setVisible(false);
-            rent_form.setVisible(false);
+    if (event.getSource() == home_btn) {
+        home_form.setVisible(true);
+        availableCars_form.setVisible(false);
+        rent_form.setVisible(false);
+    
 
             home_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #686f86, #8e9296);");
             availableCars_btn.setStyle("-fx-background-color:transparent");
@@ -1025,11 +1092,11 @@ public class DashboardController implements Initializable {
             homeTotalCustomers();
             homeIncomeChart();
             homeCustomerChart();
-            
+
         } else if (event.getSource() == availableCars_btn) {
-            home_form.setVisible(false);
-            availableCars_form.setVisible(true);
-            rent_form.setVisible(false);
+        home_form.setVisible(false);
+        availableCars_form.setVisible(true);
+        rent_form.setVisible(false);
 
             availableCars_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #686f86, #8e9296);");
             home_btn.setStyle("-fx-background-color:transparent");
@@ -1059,10 +1126,12 @@ public class DashboardController implements Initializable {
 
     }
 
+    @FXML
     public void close() {
         System.exit(0);
     }
 
+    @FXML
     public void minimize() {
         Stage stage = (Stage) main_form.getScene().getWindow();
         stage.setIconified(true);
@@ -1077,8 +1146,7 @@ public class DashboardController implements Initializable {
         homeTotalCustomers();
         homeIncomeChart();
         homeCustomerChart();
-        
-        
+
         // TO DISPLAY THE DATA ON THE TABLEVIEW
         availableCarShowListData();
         availableCarStatusList();
